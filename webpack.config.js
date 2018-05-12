@@ -1,3 +1,4 @@
+const PrettierPlugin = require('prettier-webpack-plugin');
 const path = require('path');
 
 module.exports = {
@@ -11,50 +12,89 @@ module.exports = {
     /* ファイルローダーなどの設定 */
     rules: [
       {
-        /* JavaScript */
-        test: /\.jsx?$/,
-        exclude: /node_modules/,
+        test: /\.(jsx?|tsx?)$/,
+        enforce: 'pre',
         use: [
           {
-            loader: 'babel-loader',
+            loader: 'eslint-loader',
           },
         ],
       },
-      /* TypeScript */
       {
-        test: /\.tsx?$/,
-        use: [
+        oneOf: [
+          /* Images */
           {
-            loader: 'ts-loader',
+            test: /\.(png|jpe?g)$/,
+            use: [
+              {
+                loader: 'url-loader',
+                options: {
+                  limit: 10000,
+                  name: 'static/media/[name].[hash:8].[ext]',
+                },
+              },
+            ],
+          },
+          {
+            /* JavaScript */
+            test: /\.jsx?$/,
+            exclude: /node_modules/,
+            use: [
+              {
+                loader: 'babel-loader',
+                options: {
+                  cacheDirectory: true,
+                },
+              },
+            ],
+          },
+          /* TypeScript */
+          {
+            test: /\.tsx?$/,
+            use: [
+              {
+                loader: 'ts-loader',
+              },
+            ],
+            exclude: /node_modules/,
+          },
+          /* SASS */
+          {
+            test: /\.scss$/,
+            use: [
+              {
+                loader: 'style-loader',
+              },
+              {
+                loader: 'css-loader',
+                options: {
+                  sourceMap: true,
+                },
+              },
+              {
+                loader: 'sass-loader',
+                options: {
+                  sourceMap: true,
+                },
+              },
+            ],
+            exclude: /node_modules/,
           },
         ],
-        exclude: /node_modules/,
-      },
-      /* SASS */
-      {
-        test: /\.scss$/,
-        use: [
-          {
-            loader: 'style-loader',
-          },
-          {
-            loader: 'css-loader',
-            options: {
-              sourceMap: true,
-            },
-          },
-          {
-            loader: 'sass-loader',
-            options: {
-              sourceMap: true,
-            },
-          },
-        ],
-        exclude: /node_modules/,
       },
     ],
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx', '.css', '.scss'],
+    extensions: [
+      '.ts',
+      '.tsx',
+      '.js',
+      '.jsx',
+      '.css',
+      '.scss',
+      '.jpeg',
+      '.jpg',
+      '.png',
+    ],
   },
 };
