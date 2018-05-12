@@ -12,15 +12,6 @@ module.exports = {
     /* ファイルローダーなどの設定 */
     rules: [
       {
-        test: /\.(jsx?|tsx?)$/,
-        enforce: 'pre',
-        use: [
-          {
-            loader: 'eslint-loader',
-          },
-        ],
-      },
-      {
         oneOf: [
           /* Images */
           {
