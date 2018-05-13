@@ -6,7 +6,7 @@
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "noUnusedLocals": true,
+    "noUnusedLocals": false,
     "noImplicitAny": true,
     "module": "commonjs",
     "target": "es6",

@@ -1,13 +1,14 @@
 import * as React from 'react';
-import { Sprite } from 'react-pixi-fiber';
+import { SpriteProperties, CustomPIXIComponent } from 'react-pixi-fiber';
 
-interface Props {
-  alpha?: number;
-  x?: number;
-  y?: number;
+interface Props extends SpriteProperties {
   animationSpeed?: number;
-
   textures: PIXI.Texture[];
 }
-const AnimationSprite = (props: Props) => <Sprite />;
-export default AnimationSprite;
+
+export const behavior = {
+  customDisplayObject: (props: Props) =>
+    new PIXI.extras.AnimatedSprite(props.textures),
+};
+
+export default CustomPIXIComponent(behavior, 'AnimatedSprite');
